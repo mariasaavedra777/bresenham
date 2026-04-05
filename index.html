@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Algoritmo de Bresenham - Mafer Saavedra</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; background-color: #f0f2f5; }
+        .container { background: white; padding: 20px; border-radius: 10px; shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 20px; }
+        canvas { border: 2px solid #333; background-color: white; margin: 20px 0; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; background: white; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #007bff; color: white; }
+        .inputs { margin-bottom: 15px; }
+        input { width: 60px; padding: 5px; margin-right: 10px; }
+        button { padding: 8px 15px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Trazado de Líneas (Bresenham)</h2>
+        <div class="inputs">
+            <input type="number" id="x0" placeholder="X0">
+            <input type="number" id="y0" placeholder="Y0">
+            <input type="number" id="x1" placeholder="X1">
+            <input type="number" id="y1" placeholder="Y1">
+            <button id="btnDibujar">Dibujar Línea</button>
+        </div>
+        
+        <canvas id="miCanvas" width="400" height="400"></canvas>
+
+        <table id="tablaPasos">
+            <thead>
+                <tr>
+                    <th>Paso</th>
+                    <th>X</th>
+                    <th>Y</th>
+                    <th>Error (e)</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
