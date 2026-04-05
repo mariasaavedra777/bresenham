@@ -37,3 +37,27 @@ function bresenham(x0, y0, x1, y1, plot) {
         if (e2 < dx) { err += dx; y0 += sy; }
     }
 }
+let contador = 0;
+const tBody = document.querySelector('#tablaPasos tbody');
+
+function graficarPunto(x, y, e) {
+    ctx.fillStyle = "blue";
+    ctx.fillRect(x, y, 2, 2); // Dibuja el pixel
+
+    const tr = `<tr><td>${contador++}</td><td>${x}</td><td>${y}</td><td>${e}</td></tr>`;
+    tBody.innerHTML += tr; // Agrega a la tabla
+}
+
+document.getElementById('btnDibujar').addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    dibujarEscalas(ctx, canvas.width, canvas.height);
+    tBody.innerHTML = "";
+    contador = 0;
+
+    const x0 = parseInt(document.getElementById('x0').value) || 0;
+    const y0 = parseInt(document.getElementById('y0').value) || 0;
+    const x1 = parseInt(document.getElementById('x1').value) || 0;
+    const y1 = parseInt(document.getElementById('y1').value) || 0;
+
+    bresenham(x0, y0, x1, y1, graficarPunto);
+});
