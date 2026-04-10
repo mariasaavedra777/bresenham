@@ -1,27 +1,37 @@
 const canvas = document.getElementById('miCanvas');
 const ctx = canvas.getContext('2d');
+let resolucionDinamica = 50; 
+let tamanoPixel = canvas.width / resolucionDinamica;
 
 /**
  * Dibuja las escalas numéricas en los bordes del canvas.
  */
+/**
+ * CAMBIO: Ahora dibuja una cuadrícula completa y escala de 5 en 5 unidades.
+ */
 function dibujarEscalas(ctx, w, h) {
-    ctx.strokeStyle = "#ddd";
+    ctx.strokeStyle = "#eee"; // Gris muy claro para no estorbar la línea
     ctx.fillStyle = "#999";
-    ctx.font = "9px Arial";
+    ctx.font = "10px Arial";
 
-    for (let i = 0; i <= w; i += 50) {
-        ctx.fillText(i, i + 2, h - 5);
-        ctx.beginPath(); ctx.moveTo(i, h); ctx.lineTo(i, h - 8); ctx.stroke();
-    }
-    for (let i = 0; i <= h; i += 50) {
-        ctx.fillText(i, 5, i - 2);
-        ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(8, i); ctx.stroke();
+    // Usamos la resolución dinámica para que la rejilla se ajuste
+    for (let i = 0; i <= resolucionDinamica; i++) {
+        let pos = i * tamanoPixel;
+
+        // Dibujamos las líneas de la rejilla (verticales y horizontales)
+        ctx.beginPath(); ctx.moveTo(pos, 0); ctx.lineTo(pos, h); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, pos); ctx.lineTo(w, pos); ctx.stroke();
+
+        // Ponemos los números de 5 en 5 para que se vea limpio
+        if (i % 5 === 0) {
+            ctx.fillText(i, pos + 2, h - 5); // Números en X
+            ctx.fillText(i, 5, pos - 2);     // Números en Y
+        }
     }
 }
+// Llamada inicial
 dibujarEscalas(ctx, canvas.width, canvas.height);
-/**
- * Algoritmo de Bresenham documentado.
- */
+
 function bresenham(x0, y0, x1, y1, plot) {
     let dx = Math.abs(x1 - x0);
     let dy = Math.abs(y1 - y0);
@@ -41,13 +51,14 @@ let contador = 0;
 const tBody = document.querySelector('#tablaPasos tbody');
 
 function graficarPunto(x, y, e) {
-    ctx.fillStyle = "blue";
-    ctx.fillRect(x, y, 2, 2); // Dibuja el pixel
+    // CAMBIO: Ahora dibujamos un cuadro (píxel lógico) en lugar de un punto de 2x2
+    ctx.fillStyle = "rgba(52, 152, 219, 0.7)"; // Azul con transparencia para el "sombreado"
+    ctx.fillRect(x * tamanoPixel, y * tamanoPixel, tamanoPixel, tamanoPixel);
 
+    // Mantenemos la lógica de la tabla pero con la letra pequeña que pusimos en el CSS
     const tr = `<tr><td>${contador++}</td><td>${x}</td><td>${y}</td><td>${e}</td></tr>`;
-    tBody.innerHTML += tr; // Agrega a la tabla
+    tBody.innerHTML += tr;
 }
-
 document.getElementById('btnDibujar').addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     dibujarEscalas(ctx, canvas.width, canvas.height);
