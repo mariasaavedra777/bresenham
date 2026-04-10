@@ -22,10 +22,15 @@ function dibujarEscalas(ctx, w, h) {
         ctx.beginPath(); ctx.moveTo(pos, 0); ctx.lineTo(pos, h); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(0, pos); ctx.lineTo(w, pos); ctx.stroke();
 
-        // Ponemos los números de 5 en 5 para que se vea limpio
         if (i % 5 === 0) {
-            ctx.fillText(i, pos + 2, h - 5); // Números en X
-            ctx.fillText(i, 5, pos - 2);     // Números en Y
+            ctx.fillText(i, pos + 2, h - 5);
+        }
+
+        // Ponemos los números de 5 en 5 para que se vea limpio
+       if (i % 5 === 0) {
+            let valorY = i; 
+            let posicionY = h - (i * tamanoPixel); 
+            ctx.fillText(valorY, 5, posicionY - 2);
         }
     }
 }
@@ -53,7 +58,8 @@ const tBody = document.querySelector('#tablaPasos tbody');
 function graficarPunto(x, y, e) {
     // CAMBIO: Ahora dibujamos un cuadro (píxel lógico) en lugar de un punto de 2x2
     ctx.fillStyle = "rgba(52, 152, 219, 0.7)"; // Azul con transparencia para el "sombreado"
-    ctx.fillRect(x * tamanoPixel, y * tamanoPixel, tamanoPixel, tamanoPixel);
+    let yInvertida = canvas.height - (y * tamanoPixel) - tamanoPixel;
+ctx.fillRect(x * tamanoPixel, yInvertida, tamanoPixel, tamanoPixel);
 
     // Mantenemos la lógica de la tabla pero con la letra pequeña que pusimos en el CSS
     const tr = `<tr><td>${contador++}</td><td>${x}</td><td>${y}</td><td>${e}</td></tr>`;
